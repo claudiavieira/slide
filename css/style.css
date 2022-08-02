@@ -1,0 +1,33 @@
+body {
+  margin: 0px;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+  list-style: none;
+}
+
+img {
+  display: block; /* tira o espaço que tem entre uma img e outra*/
+  max-width: 100%
+}
+
+.slide-wrapper {
+  overflow: hidden;
+}
+
+.slide {
+  display: flex; /* coloca uma imagem ao lado da outra*/
+}
+
+.slide li {
+  flex-shrink: 0; /* nao diminui o tamanho pra caber dentro da tela*/
+  width: 80vw; /* significa 80% da tela, vw = virtual width*/
+  max-width: 800px;
+  margin: 0 20px; /* uma margem entre uma figura e outra*/
+}
+
+.slide {
+  transform: translate3d(-500px, 0px, 0px);
+}
