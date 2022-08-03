@@ -25,25 +25,39 @@ export default class Slide {
   }
 
   onStart(event) {
-    event.preventDefault();
-    this.dist.startX = event.clientX;
-    console.log(this.dist.startX);
+    let moveType;
+    // se for mousedown teremos o preventDefault, caso contrario (no de touch, mobile) nao teremos
+    if (event.type === 'mousedown') {
+      event.preventDefault();
+      this.dist.startX = event.clientX;
+      console.log(this.dist.startX);
+      console.log('nao é mobile');
+      moveType = 'mousemove';
+    } else { // se for o event de touchstart (mobile)
+      console.log('mobile');
+      this.dist.startX = event.changedTouches[0].clientX; // pega do zero pois queremos o primeiro toque do primeiro dedo
+      moveType = 'touchmove';
+    }
+    
+   
     // console.log(this);
     console.log('mousedown');
-    this.wrapper.addEventListener('mousemove', this.onMove); // adiciona o evento ao dar o primeiro clique, conforme eu segurar e ir arrastando o mouse ele vai ativndo o evento
+    this.wrapper.addEventListener(moveType, this.onMove); // adiciona o evento ao dar o primeiro clique, conforme eu segurar e ir arrastando o mouse ele vai ativndo o evento
   }
 
   onMove(event) {
+    const pointerPosition = (event.type === 'mousemove') ? event.clientX :  event.changedTouches[0].clientX // pointer pode ser o dedo ou o mouse
     console.log('moveu');
-    const finalPosition = this.updatePosition(event.clientX);
+    const finalPosition = this.updatePosition(pointerPosition);
 
     // sempre que o onMove for ativado e pegar a finalPosition vou mover o moveSlide para a posição final
     this.moveSlide(finalPosition);
   }
 
   onEnd(event) {
+    const moveType = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
     console.log('acabou');
-    this.wrapper.removeEventListener('mousemove', this.onMove);
+    this.wrapper.removeEventListener(moveType, this.onMove);
 
     // Quando a pessoa tirar o mouse de cima quero guardar esse valor na finalPosition o valor
     this.dist.finalPosition = this.dist.movePosition;
@@ -53,8 +67,13 @@ export default class Slide {
     // mousedown ativa o evento quando clico
     this.wrapper.addEventListener('mousedown', this.onStart);
 
+    // touchstart é um evento igual ao mousedown mas 
+    this.wrapper.addEventListener('touchstart', this.onStart);
+
      // mouseup ativa o evento quando desclicar o mouse
     this.wrapper.addEventListener('mouseup', this.onEnd);
+
+    this.wrapper.addEventListener('touchend', this.onEnd);
   }
 
   // todo evento dentro de classe precisa ter o bind, pra fazer referencia ao objeto
