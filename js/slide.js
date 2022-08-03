@@ -83,9 +83,45 @@ export default class Slide {
     this.onEnd = this.onEnd.bind(this);
   }
 
+  // Slides config (configuração de cada slide)
+  slidePosition (slide) { 
+    // Vai calcular o posicionamento exato pra colocar o slide no centro
+    // Basta pegar o total da tela - o total do elemento que vai sobrar as margens do elemento e esse valor divido por 2 deixando uma margem pra cada lado
+    const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
+    return -(slide.offsetLeft - margin); // obs o valor precisa ser negativo se nao muda o sentido dos slides, é um valor para o slide ficar no centro
+  }
+  slidesConfig() {
+    // Primeiro transforma em uma array para que assim que consiga colocar a array dentro da classe
+    // O map retorna por padrao uma array modificada de acordo com o que vc usou no return, neste caso vou retornar o objeto
+    this.slideArray = [...this.slide.children].map((element) => {
+      const position = this.slidePosition(element);
+      return { position, element }
+    }); 
+    console.log(this.slideArray);
+  }
+
+  slidesIndexNav(index) {
+    const last = this.slideArray.length - 1; // ultimo slide
+    this.index = {
+      prev: index ? index - 1 : undefined, // slide anterior
+      active: index, // slide atual
+      next: index === last ? undefined : index + 1 // proximo slide
+    }
+  }
+
+  // Muda o slide de acordo com o index passado nele
+  changeSlide(index) {
+    const activeSlide = this.slideArray[index];
+    this.moveSlide(activeSlide.position);
+    this.slidesIndexNav(index);
+    console.log(this.index);
+    this.dist.finalPosition = activeSlide.position;
+  }
+
   init() {
     this.bindEvents();
     this.addSlideEvents();
+    this.slidesConfig();
     return this;
   }
 }
