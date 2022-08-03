@@ -27,7 +27,3 @@ img {
   max-width: 800px;
   margin: 0 20px; /* uma margem entre uma figura e outra*/
 }
-
-.slide {
-  transform: translate3d(-500px, 0px, 0px);
-}
