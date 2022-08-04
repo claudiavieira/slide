@@ -9,6 +9,10 @@ export default class Slide {
     }
   }
 
+  transition(active) {
+    this.slide.style.transition = active ? 'transform .3s' : ''
+  }
+
   moveSlide(distX) {
     // Sempre que eu mover o slide eu posso salvar a distancia
     this.dist.movePosition = distX;
@@ -43,6 +47,8 @@ export default class Slide {
     // console.log(this);
     console.log('mousedown');
     this.wrapper.addEventListener(moveType, this.onMove); // adiciona o evento ao dar o primeiro clique, conforme eu segurar e ir arrastando o mouse ele vai ativndo o evento
+
+    this.transition(false);
   }
 
   onMove(event) {
@@ -61,6 +67,20 @@ export default class Slide {
 
     // Quando a pessoa tirar o mouse de cima quero guardar esse valor na finalPosition o valor
     this.dist.finalPosition = this.dist.movePosition;
+    this.transition(true);
+    this.changeSlideOnEnd();
+  }
+
+  // Muda o slide ao final, ou seja, quando terminar o movimento
+  changeSlideOnEnd() {
+    if (this.dist.movement > 120 && this.index.next !== undefined) {
+      this.activeNextSlide(); // Ativa proximo slide
+    } else if (this.dist.movement < -120 && this.index.prev !== undefined) {
+      this.activePrevSlide(); // Ativa slide anterior
+    } else {
+      this.changeSlide(this.index.active);
+    }
+    // Quando o movimento for positivo ele vai para o proximo slide, quando o movimento for negativo ele vai para o anterior
   }
 
   addSlideEvents() {
@@ -118,8 +138,22 @@ export default class Slide {
     this.dist.finalPosition = activeSlide.position;
   }
 
+  // Ativa o slide anterior
+  activePrevSlide() {
+    if (this.index.prev !== undefined) { // se tiver slide anterior
+      this.changeSlide(this.index.prev);
+    }
+  }
+
+  activeNextSlide() {
+    if (this.index.next !== undefined) { // se tiver proximo slide
+      this.changeSlide(this.index.next);
+    }
+  }
+
   init() {
     this.bindEvents();
+    this.transition(true);
     this.addSlideEvents();
     this.slidesConfig();
     return this;
