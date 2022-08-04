@@ -21,9 +21,25 @@ img {
   display: flex; /* coloca uma imagem ao lado da outra*/
 }
 
+.slide:hover {
+  will-change: transform; /* vai mudar o transform*/
+}
+
 .slide li {
   flex-shrink: 0; /* nao diminui o tamanho pra caber dentro da tela*/
   width: 80vw; /* significa 80% da tela, vw = virtual width*/
   max-width: 800px;
   margin: 0 20px; /* uma margem entre uma figura e outra*/
+
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,.4);
+  opacity: .8;
+  transform: scale(.8); /* diminui o tamanho*/
+  transition: .4s;
+}
+
+.slide li.active {
+  opacity: 1;
+  transform: scale(1);
 }
