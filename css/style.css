@@ -43,3 +43,24 @@ img {
   opacity: 1;
   transform: scale(1);
 }
+
+[data-control="slide"] {
+  display: flex; /* fica um ao lado do outro */
+  justify-content: center;
+  margin-top: 20px;
+}
+
+[data-control="slide"] li a{
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: #fb5;
+  border-radius: 50%; /* transforma em circulo */
+  overflow: hidden; /* esconde os numeros */
+  text-indent: -999px; /* faz sair da tela, pois estou movendo pra uma area fora*/
+  margin: 5px;
+}
+
+[data-control="slide"] li.active a, [data-control="slide"] li a:hover{
+  background: #e54;
+}
