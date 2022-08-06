@@ -64,3 +64,48 @@ img {
 [data-control="slide"] li.active a, [data-control="slide"] li a:hover{
   background: #e54;
 }
+
+.custom-controls {
+  display: flex; /* para ficar uma foto de cada lado */
+  justify-content: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* caso estoure o container vai quebrar, se nao colocar isso, apenas diminui o tamanho das imagens para caber*/
+}
+
+.custom-controls li {
+  opacity: .8;
+  transform: scale(.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden; /* precisa para a propriedade acima border-radius: 50%; funcionar e transformar em um circulo a img*/
+  margin: 2px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, .5);
+  transition: .3s; /* para a bolinha crescer*/
+}
+
+.custom-controls li.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.arrow-nav {
+  display: flex;
+  justify-content: space-around; /* vai criar um espaço em volta delas */
+  margin: 20px 0;
+}
+
+.arrow-nav button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  width: 40px;
+  height: 40px;
+  background: #fb5 url('../img/arrow.svg') center center no-repeat;
+}
+
+.arrow-nav button.prev {
+  transform: rotate(-180deg); /* gira o button prev no sentido contrario, mudando a seta de sentido*/
+}
